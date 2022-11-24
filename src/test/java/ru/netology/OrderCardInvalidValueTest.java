@@ -30,7 +30,7 @@ public class OrderCardInvalidValueTest {
     }
 
     @Test
-    void oderCardTest() {
+    void oderCardTest1() {
         driver.get("http://localhost:9999");
         driver.findElement(By.cssSelector("[data-test-id = 'name'] input")).sendKeys("Ivanov Ivan");
         driver.findElement(By.cssSelector("[data-test-id = 'phone'] input")).sendKeys("+79163131737");
@@ -39,6 +39,29 @@ public class OrderCardInvalidValueTest {
 
         String actualText = driver.findElement(By.cssSelector("[data-test-id = 'name'] span.input__sub")).getText();
         assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", actualText.strip());
+    }
+
+    @Test
+    void oderCardTest2() {
+        driver.get("http://localhost:9999");
+        driver.findElement(By.cssSelector("[data-test-id = 'name'] input")).sendKeys("Иванов Иван");
+        driver.findElement(By.cssSelector("[data-test-id = 'phone'] input")).sendKeys("+7916313173");
+        driver.findElement(By.cssSelector("[data-test-id = 'agreement'] span")).click();
+        driver.findElement(By.className("button__content")).click();
+
+        String actualText = driver.findElement(By.cssSelector("[data-test-id = 'phone'] span.input__sub")).getText();
+        assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", actualText.strip());
+    }
+
+    @Test
+    void oderCardTest3() {
+        driver.get("http://localhost:9999");
+        driver.findElement(By.cssSelector("[data-test-id = 'name'] input")).sendKeys("Иванов Иван");
+        driver.findElement(By.cssSelector("[data-test-id = 'phone'] input")).sendKeys("+79163131737");
+        driver.findElement(By.className("button__content")).click();
+
+        String actualText = driver.findElement(By.cssSelector("[data-test-id = 'agreement'] span.checkbox__text")).getText();
+        assertEquals("Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй", actualText.strip());
     }
 
     @AfterEach
